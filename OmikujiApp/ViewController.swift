@@ -18,6 +18,8 @@ class ViewController: UIViewController {
     var resultAudioPlayer: AVAudioPlayer = AVAudioPlayer()
     //降っている時の音
     var playingAudioPlayer: AVAudioPlayer = AVAudioPlayer()
+    //明日があるさ
+    var badAudioPlayer: AVAudioPlayer = AVAudioPlayer()
     
     
     
@@ -49,6 +51,8 @@ class ViewController: UIViewController {
         setupSound()
         //音二つ目の準備
         playingSound()
+        //大凶の時の音の準備
+        badSound()
         // Do any additional setup after loading the view.
     }
     
@@ -85,25 +89,17 @@ class ViewController: UIViewController {
         
         if stiskBottomMargin.constant == CGFloat(0){
             stickLabel.text = resultTexts[resultNum]
+            
+            if resultNum == 6 {
+                DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 1) {
+                    self.badAudioPlayer.play()
+                }
+            }
         }else{
             return
         }
         
-
-     
-        
-//       stickLabel.text = resultTexts[resultNum]
-        
-        
-//            stickLabel.text = resultTexts[resultNum]
-        
-        
-      
-        
-        
-//        DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 2) {
-//            self.stickLabel.text = self.resultTexts[resultNum]
-//        }
+    
         
         
 
@@ -159,6 +155,15 @@ class ViewController: UIViewController {
         if let sound = Bundle.main.path(forResource: "bell", ofType: ".mp3"){
             playingAudioPlayer = try! AVAudioPlayer(contentsOf: URL(fileURLWithPath: sound))
             playingAudioPlayer.prepareToPlay()
+        }
+    }
+    
+    //大凶が出た時の音
+    //ふっているときに鳴らす音の準備
+    func badSound(){
+        if let sound = Bundle.main.path(forResource: "ウルフルズ明日があるさ", ofType: ".m4a"){
+            badAudioPlayer = try! AVAudioPlayer(contentsOf: URL(fileURLWithPath: sound))
+            badAudioPlayer.prepareToPlay()
         }
     }
     
