@@ -57,8 +57,19 @@ class ViewController: UIViewController {
     }
     
     override func motionBegan(_ motion: UIEvent.EventSubtype, with event: UIEvent?) {
-        //ふっている時に音を再生(Play)する！
-        self.playingAudioPlayer.play()
+//        //ふっている時に音を再生(Play)する！
+//        self.playingAudioPlayer.play()
+        
+        if stiskBottomMargin.constant == CGFloat(0){
+            //ふっている時に音を再生(Play)する！
+            self.playingAudioPlayer.play()
+            
+        }else{
+            return
+        }
+        
+        
+        
         
         //結果表示中はモーションを無効にする
         if motion != UIEvent.EventSubtype.motionShake || overView.isHidden == false {
@@ -89,7 +100,7 @@ class ViewController: UIViewController {
         
         if stiskBottomMargin.constant == CGFloat(0){
             stickLabel.text = resultTexts[resultNum]
-            
+            //大凶の時に明日があるさを流す
             if resultNum == 6 {
                 DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 1) {
                     self.badAudioPlayer.play()
@@ -137,6 +148,8 @@ class ViewController: UIViewController {
     @IBAction func tapRetryButton(_ sender: UIButton) {
         overView.isHidden = true
         stiskBottomMargin.constant = 0
+        //大凶時に振っている音を止める
+        self.badAudioPlayer.stop()
     }
     
     
